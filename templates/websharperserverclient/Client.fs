@@ -1,4 +1,4 @@
-namespace <%= namespace %>
+﻿namespace <%= namespace %>
 
 open WebSharper
 open WebSharper.JavaScript
