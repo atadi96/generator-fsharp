@@ -25,13 +25,13 @@ module Templating =
             li ["About" => EndPoint.About]
         ]
 
-    let Main ctx action title body =
+    let Main ctx action (title: string) (body: Doc list) =
         Content.Page(
-            MainTemplate.Doc(
-                title = title,
-                menubar = MenuBar ctx action,
-                body = body
-            )
+            MainTemplate()
+                .Title(title)
+                .MenuBar(MenuBar ctx action)
+                .Body(body)
+                .Doc()
         )
 
 module Site =
@@ -58,16 +58,8 @@ module Site =
 
     open WebSharper.Suave
     open Suave.Web
-    open Suave.Logging
-    open System
-    open System.IO
-    open System.Reflection
 
-    let codeBase = Assembly.GetEntryAssembly().CodeBase
-    let builder = UriBuilder(codeBase)
-    let pathToAssembly = Uri.UnescapeDataString(builder.Path)
-    let rootPath = Path.GetDirectoryName(Path.Combine(pathToAssembly, "../../"))
-    (*let debugConfig = { defaultConfig with logger = Loggers.saneDefaultsFor LogLevel.Verbose }*)
-
-    do startWebServer defaultConfig (WebSharperAdapter.ToWebPart (Main, RootDirectory=rootPath))
-
+    do
+        startWebServer
+            defaultConfig
+            (WebSharperAdapter.ToWebPart(Main, RootDirectory = @"../.."))
