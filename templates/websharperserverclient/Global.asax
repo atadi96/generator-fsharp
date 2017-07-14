@@ -1,1 +1,1 @@
-<%@ Application Inherits="<%= namespace %>.Global" %>
+<%%@ Application Inherits="<%= namespace %>.Global" %>
